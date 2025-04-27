@@ -34,7 +34,7 @@ DOMAIN-SUFFIX,wargaming.net
 DOMAIN-SUFFIX,cdn.static.wotb.app
 DOMAIN-SUFFIX,roaster.wotb.app
 DOMAIN-SUFFIX,wotb.app
-# DOMAIN-KEYWORD,wargaming
+DOMAIN-KEYWORD,wargaming
 DOMAIN-KEYWORD,wotblitz
 DOMAIN-KEYWORD,wgcdn
 DOMAIN-KEYWORD,wotb
