@@ -1,0 +1,8 @@
+// https://github.com/KannaSakura/Rule-provider/blob/b5870ee35218a0a60c5046952dfb81dd7184a0e0/Surge/Games.list#L6
+
+DOMAIN-KEYWORD,wargaming 
+DOMAIN-KEYWORD,wows 
+DOMAIN-KEYWORD,wots
+DOMAIN-SUFFIX,wgcdn.co
+DOMAIN-SUFFIX,worldoftanks.asia
+DOMAIN-SUFFIX,worldofwarships.asia
