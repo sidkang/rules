@@ -6,3 +6,6 @@ DOMAIN-KEYWORD,wots
 DOMAIN-SUFFIX,wgcdn.co
 DOMAIN-SUFFIX,worldoftanks.asia
 DOMAIN-SUFFIX,worldofwarships.asia
+
+IP-CIDR,13.214.22.164/24
+IP-CIDR,13.215.137.152/24
