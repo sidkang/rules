@@ -46,5 +46,5 @@ DOMAIN-SUFFIX,caixin.com
 # DOMAIN-SUFFIX,m-team.cc
 DOMAIN-SUFFIX,flyert.com
 
-DOMAIN-SUFFIX,iyzico.com // oyunfor 土耳其礼品卡付费
-DOMAIN-SUFFIX,oyunfor.com // 土耳其礼品卡
+# DOMAIN-SUFFIX,iyzico.com // oyunfor 土耳其礼品卡付费
+# DOMAIN-SUFFIX,oyunfor.com // 土耳其礼品卡
