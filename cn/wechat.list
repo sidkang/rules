@@ -1,0 +1,9 @@
+USER-AGENT,WeChat*
+USER-AGENT,MicroMessenger*
+PROCESS-NAME,WeChat
+
+DOMAIN-SUFFIX,wechat.com
+DOMAIN-SUFFIX,wechatlegal.net
+DOMAIN-SUFFIX,wechatpay.com
+DOMAIN-SUFFIX,weixin.com
+DOMAIN-SUFFIX,weixin.qq.com

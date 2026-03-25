@@ -1,0 +1,12 @@
+# TEMPORARY Sites
+# Non Chinese Version
+DOMAIN-SUFFIX,leetcode-cn.com
+# Trash Sites
+DOMAIN-SUFFIX,www.baidu.com
+DOMAIN-SUFFIX,360totalsecurity.com
+# UNKNOWN
+DOMAIN-SUFFIX,bing.cn
+DOMAIN-SUFFIX,rustwiki.org
+
+DOMAIN-SUFFIX,leetcode-cn.com
+DOMAIN,abema-adx.ameba.jp
