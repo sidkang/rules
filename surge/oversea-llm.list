@@ -11,7 +11,9 @@ PROCESS-NAME,codex
 # Anthropic / Claude / Claude Code
 DOMAIN-SUFFIX,anthropic.com
 DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,claude.com
 DOMAIN-SUFFIX,claudeusercontent.com
+DOMAIN,cdn.usefathom.com
 PROCESS-NAME,claude
 
 # Google Gemini / AI Studio
