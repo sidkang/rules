@@ -23,6 +23,7 @@ DOMAIN,ai.google.dev
 DOMAIN,notebooklm.google.com
 DOMAIN,cloudaicompanion.googleapis.com
 DOMAIN-SUFFIX,generativeai.google
+DOMAIN-SUFFIX,generativelanguage.googleapis.com
 
 # xAI / Grok
 DOMAIN-SUFFIX,x.ai
