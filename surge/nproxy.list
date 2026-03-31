@@ -5,6 +5,9 @@ DOMAIN-SUFFIX,ccxi.com.cn
 DEST-PORT,23
 DEST-PORT,22
 
+// 腾讯会议
+PROCESS-NAME,*TencentMeeting*
+
 // Wechat
 USER-AGENT,MicroMessenger*
 USER-AGENT,WeChat*
