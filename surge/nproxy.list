@@ -54,6 +54,8 @@ PROCESS-NAME,*APTV*
 
 DOMAIN-SUFFIX,ccb.com
 DOMAIN-SUFFIX,hsbc.com.hk // hsbc
+DOMAIN-SUFFIX,hsbc.com
+DOMAIN-SUFFIX,hsbc.com.cn
 DOMAIN-SUFFIX,bochk.com // bochk app
 DOMAIN-SUFFIX,amac.org.cn
 DOMAIN-SUFFIX,caixin.com
