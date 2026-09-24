@@ -1,5 +1,8 @@
 # https://juejin.cn/post/7487073065672278066
 # 2025-04-20
+# Enable only when intentionally blocking update services, not just major macOS upgrades.
+# configuration.apple.com also serves Rosetta 2 updates; updates-http.cdn-apple.com
+# also serves iOS/iPadOS carrier settings. Do not apply to all devices by file name alone.
 DOMAIN-SUFFIX,mesu.apple.com
 DOMAIN-SUFFIX,gdmf.apple.com
 DOMAIN-SUFFIX,updates-http.cdn-apple.com

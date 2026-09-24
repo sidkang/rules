@@ -1,0 +1,4 @@
+// Shared Microsoft sign-in and office domains need device/process-specific rules in the caller.
+DOMAIN-SUFFIX,xbox.com
+DOMAIN-SUFFIX,xboxlive.com
+DOMAIN-SUFFIX,gamepass.com

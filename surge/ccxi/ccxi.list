@@ -1,9 +1,14 @@
-DOMAIN,mail.ccxi.com.cn
+// CCXI business traffic. Bind this list to the ccxi policy in the profile.
 DOMAIN-SUFFIX,ccxi.com.cn
-AND,((IP-CIDR,10.99.1.81/24), (DEST-PORT,8080)) // 金蝶
-AND,((IP-CIDR,10.99.10.47/24), (DEST-PORT,6000-14000)) // CCXI LLM
-AND,((IP-CIDR,10.99.20.0/24), (DEST-PORT,13306)) // CCXI DB
-AND,((IP-CIDR,192.168.20.183/24), (DEST-PORT,8080)) // 知识库测试
-AND,((IP-CIDR,192.168.20.80/24), (DEST-PORT,9000)) // CCXI-T MINIIO
-AND,((IP-CIDR,192.168.20.85/24), (DEST-PORT,9001)) // CCXI-T Swagger
-AND,((IP-CIDR,172.18.1.22/24), (DEST-PORT,22)) // CCXI VPS Alternative
+DOMAIN-SUFFIX,ccxgroup.com.cn
+
+// Preserve the IP/port routing currently configured in unify.conf.
+AND,((IP-CIDR,10.99.1.81/32), (DEST-PORT,8080))
+AND,((IP-CIDR,10.99.6.21/32), (DEST-PORT,3000-50000))
+AND,((IP-CIDR,10.99.10.0/24), (DEST-PORT,3000-50000))
+AND,((IP-CIDR,10.99.20.0/24), (DEST-PORT,3000-50000))
+AND,((IP-CIDR,192.168.20.0/24), (DEST-PORT,3000-50000))
+IP-CIDR,172.18.1.100/30
+
+// Additional host exceptions from the original ccxi.list, not covered above.
+AND,((IP-CIDR,172.18.1.22/32), (DEST-PORT,22))
