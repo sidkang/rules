@@ -1,0 +1,37 @@
+# 中国服务直连候选：大麦 / 淘宝（仅模块中可确认的接口与图片主机）
+# 无内置策略；由订阅配置指定 DIRECT。不是完整的中国 / 大麦 / 淘宝规则集。
+# 从截至 2026-06-30 已存在的模块提取；源码核对日期：2026-10-07。
+# 模块日期只能证明规则存在，不能证明当前 App 版本仍兼容；需检查实际请求。
+# 广告拒绝规则应优先于本列表；HTTPS 路径净化仍需模块、MITM 与受信任证书。
+# 不使用整个 taobao.com / alicdn.com / alibaba.com 后缀或阿里云 IP 段。
+# MITM hostname 是解密范围，不是作者提供的分流策略；此处直连是本地选择。
+#
+# 来源 A：fmz200 / 奶思，大麦模块（固定源码版本）
+# https://raw.githubusercontent.com/fmz200/wool_scripts/6f218c9cb5122be78c71f32139643350bc5a1d40/Surge/module/split/partD/Damai.sgmodule
+# 来源 B：fmz200 / 奶思，淘宝模块（固定源码版本）
+# https://raw.githubusercontent.com/fmz200/wool_scripts/6f218c9cb5122be78c71f32139643350bc5a1d40/Surge/module/split/partT/Taobao.sgmodule
+# 来源 C：QingRex 转换的 RuCu6 / 可莉淘宝模块（固定源码版本）
+# https://raw.githubusercontent.com/QingRex/LoonKissSurge/88f13739812159eb9ffd25c3a982c68c14047cc2/Surge/%E6%B7%98%E5%AE%9D%E5%8E%BB%E5%B9%BF%E5%91%8A.sgmodule
+
+# 大麦与阿里系 App 共享网关；来源 A / B / C。
+# A 只替换 mtop.damai.wireless.home.welcome，不能据此拒绝整个共享网关。
+# B / C 也按路径处理飞猪、闲鱼、电影等接口，作用并不限于淘宝。
+DOMAIN,acs.m.taobao.com
+
+# 淘宝首页 / 启动资源网关；来源 B / C。
+# 模块对 secondfloor、newface、cloudvideo、splash 的部分接口做替换或响应净化。
+# 域名直连不等于去广告；不在 list 中复制 Map Local 或响应脚本。
+DOMAIN,guide-acs.m.taobao.com
+
+# 阿里图片 CDN；来源 C 的 Map Local 正则明确匹配这两个主机。
+# 仅针对特定开屏图片路径净化；整域拒绝可能误伤正常图片。
+# C 的 MITM 列表包含 heic，但未包含 gw；其 gw HTTPS 重写需另有 MITM 配置。
+DOMAIN,gw.alicdn.com
+DOMAIN,heic.alicdn.com
+
+# 有意不转为直连规则：
+# - B / C 的 [Rule]：广告、推广、追踪主机是 REJECT 候选，不是直连白名单。
+# - A 的 amdc.m.taobao.com：只拒绝 appkey=23782110 的 HTTPDNS 调度请求；
+#   不扩大为全域拒绝，也不在这里替其他阿里 App 选择 HTTPDNS 策略。
+# - B / C 的 poplayer.template.alibaba.com：弹层模板由脚本净化，本列表不优先放行。
+# - Map Local 的伪响应、Script 的响应修改不能用无策略域名 list 等价表达。

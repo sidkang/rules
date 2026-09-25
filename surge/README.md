@@ -1,64 +1,92 @@
-# Surge rules
+# Surge resources
 
-These are policy-free Surge rule lists. Their policy and priority are defined by
-the subscribing profile. The new paths are intentional; no old-path copies are
-maintained. Run `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests`
-from the repository root for offline boundary checks, then inspect resource
-loading and actual rule hits in Surge.
+## Layout
 
-| Directory | Purpose |
+```text
+surge/
+  list/                     # Policy-free routing/rejection lists
+    ai/ apple/ ccxi/ common/ games/ media/ region/
+  module/                   # Installable modules and their scripts
+    bilibili-lite/
+      bilibili-lite.sgmodule
+      response.js
+      README.md
+```
+
+Lists provide matching conditions; their policy and priority are defined by the
+subscribing profile. Modules patch selected settings, scripts and rewrites.
+Do not turn path-specific response changes into broad domain-routing rules.
+
+| List category | Purpose |
 | --- | --- |
-| `common/` | General-purpose direct, reject, and other policy lists |
-| `ai/` | AI/LLM domains and process rules |
-| `apple/` | Apple-specific routing and update blocking |
-| `games/` | Game services, including Steam and Xbox |
-| `media/` | Plex and other media |
-| `region/` | Country and regional services |
-| `ccxi/` | Company routing and direct exceptions |
+| `list/common/` | General direct, reject and other policy lists |
+| `list/ai/` | AI/LLM domains and process rules |
+| `list/apple/` | Apple routing and update blocking |
+| `list/games/` | Game services, including Steam and Xbox |
+| `list/media/` | Plex and other media |
+| `list/region/` | Country and regional services |
+| `list/ccxi/` | Company routing and direct exceptions |
 
-## Subscription path changes
+`list/region/cn.list` contains narrow Damai/Taobao direct-routing candidates,
+not a complete China/App list or an ad blocker. Keep ad rejection ahead of it
+and verify real requests; source module MITM hostnames do not imply routing intent.
 
-There are no redirect files. Before removing the old URLs from any other
-profile, update its references to these new raw URLs:
+## Subscription migration
 
-| Old `surge/` path(s) | New `surge/` path(s) |
+All previously categorized lists move from `surge/<category>/<file>.list` to
+`surge/list/<category>/<file>.list`. Contents are unchanged. No duplicate files
+or redirect stubs are kept at the old paths.
+
+New CDN base:
+
+```text
+https://cdn.jsdelivr.net/gh/sidkang/rules@main/surge/list/
+```
+
+Legacy uncategorized paths also map to the category, for example:
+
+| Legacy path under `surge/` | Current path under `surge/list/` |
 | --- | --- |
-| `acl.list`, `always-reject.list`, `direct.list`, `nproxy.list`, `cheap.list` | `common/` + same filename |
+| `acl.list`, `always-reject.list`, `direct.list`, `nproxy.list`, `cheap.list` | `common/` + filename |
 | `oversea-llm.list` | `ai/oversea-llm.list` |
-| `steam.list`, `wot.list`, `wotb.list`, `xbox-cloud-gaming.list` | `games/` + same filename |
+| `steam.list`, `wot.list`, `wotb.list`, `xbox-cloud-gaming.list` | `games/` + filename |
 | `apple/ios-games.list` | `games/ios-games.list` |
-| `plex.list`, `others/18x.list` | `media/` + same filename |
-| `us.list`, `tw.list`, `cn/wechat.list` | `region/` + same filename |
-| `ccxi/ccxi-vpn.list` | removed (not in use in the inspected profile) |
+| `plex.list`, `others/18x.list` | `media/` + filename |
+| `us.list`, `tw.list`, `cn/wechat.list` | `region/` + filename |
 
-`ccxi/ccxi-black.list` stays in `ccxi/`. Other Apple and CCXI paths remain unchanged. The public `ccxi/` files expose
-private-network routing information: only subscribe to them if this disclosure
-is acceptable. Removing a file later will not remove previously published
-history or third-party caches.
+After pushing, verify **actual GET response contents** for every required CDN
+URL before updating profiles. HTTP 200 alone is not enough: error text or stale
+content must not be treated as a ready rule/script. Commented-out references
+should be migrated too, without enabling them. Saving a local configuration does
+not prove that a phone or TV has synced/reloaded it.
 
-## Profile migration (not performed here)
+## Bilibili Lite module
 
-The inspected `unify.conf` is external to this repository and remains read-only.
-It currently references `always-reject`, `oversea-llm`, `cheap`, `steam`,
-`others/18x`, `direct`, `cn/wechat`, `plex`, and `wot`. Its update-block rule is
-commented out. Update those subscribed URLs **only after verifying the new raw
-URLs**. Existing CDN subscriptions may continue to serve old cached resources;
-check their actual responses separately before switching a device.
+See [module instructions](module/bilibili-lite/README.md). Install:
 
-The existing company's suffix rules and IP/port rules are collected in
-`ccxi/ccxi.list`, preserving the profile's existing broad IP ranges and
-additional host exception. For a later migration, use `ccxi/ccxi-direct.list`
-with `DIRECT` before `ccxi/ccxi.list` with `ccxi`; then remove the corresponding
-inline domain and IP rules. `mail.ccxi.com.cn` must remain an earlier direct
-exception. The old VPN list is deleted; **no new VPN-specific routing** is
-introduced. The company proxy definitions and policy group remain in the
-profile. Check real rule hits before deleting inline rules.
+```text
+https://cdn.jsdelivr.net/gh/sidkang/rules@main/surge/module/bilibili-lite/bilibili-lite.sgmodule
+```
 
-Keep narrow exceptions before broad suffixes or networks. If deliberately
-enabling the macOS update block, position it before broad Apple direct rules and
-consider its effect on Rosetta and carrier settings. `games/wot.list` and
-`games/wotb.list` no longer contain wide IP catchalls or game keywords; if a
-real game endpoint is missed, identify and add the narrow destination rather
-than restoring a large range. `ai/oversea-llm.list` still includes process rules
-for `codex` and `claude`, which match all traffic from those processes, not just
-model APIs. Change this only if that behavior is unintended.
+The module downloads its own response script; no local JS copying is needed.
+It requires MITM and a trusted Surge CA. Disable overlapping Bilibili modules.
+
+## Existing rule boundaries and privacy
+
+- CCXI files expose private-network routing information. Publication history and
+  third-party caches remain even if a file is later removed.
+- `ccxi-direct.list` is a narrow direct exception and must precede the broader
+  `ccxi.list`; routing groups and inline rules are not automatically changed.
+- Apple update blocking is opt-in and may affect Rosetta/carrier resources.
+- Game lists avoid broad IP catchalls; add observed narrow endpoints rather
+  than restoring wide ranges or keywords.
+- AI process rules for `codex` and `claude` affect all matching process traffic,
+  not only model API requests.
+
+Run offline boundary checks from the repository root:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ./tests
+```
+
+Then verify resource loading and real rule/script hits on the intended device.

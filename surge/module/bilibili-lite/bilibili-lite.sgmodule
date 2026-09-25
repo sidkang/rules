@@ -1,0 +1,18 @@
+#!name=SID Bilibili Lite
+#!desc=仅开屏去广告、搜索热词/默认词清理、底栏保留首页/动态/我的。不修改播放接口或视频 CDN。
+
+# Published module: Surge downloads and caches the response script.
+# Optional diagnostics default to off; the private CLI tool remains in the local skill.
+# Disable BiliUniverse ADBlock and Enhanced before enabling this module.
+
+[Script]
+SID-Bili-Splash = type=http-response,pattern=^https:\/\/(app\.bilibili\.com|app\.biliapi\.net)\/x\/v2\/splash\/(show|list|brand\/list|event\/list2)(\?|$),requires-body=true,max-size=262144,script-path=https://cdn.jsdelivr.net/gh/sidkang/rules@main/surge/module/bilibili-lite/response.js,timeout=5
+SID-Bili-Search = type=http-response,pattern=^https:\/\/(app\.bilibili\.com|app\.biliapi\.net)\/x\/v2\/search\/(square|defaultwords)(\?|$),requires-body=true,max-size=262144,script-path=https://cdn.jsdelivr.net/gh/sidkang/rules@main/surge/module/bilibili-lite/response.js,timeout=5
+SID-Bili-Navigation = type=http-response,pattern=^https:\/\/(app\.bilibili\.com|app\.biliapi\.net)\/x\/resource\/show\/tab\/v2(\?|$),requires-body=true,max-size=262144,script-path=https://cdn.jsdelivr.net/gh/sidkang/rules@main/surge/module/bilibili-lite/response.js,timeout=5
+
+# Only the default-search-word gRPC endpoint; never PlayURL / PlayView / View.
+[URL Rewrite]
+^https:\/\/(app\.bilibili\.com|app\.biliapi\.net)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords(\?|$) - reject
+
+[MITM]
+hostname = %APPEND% app.bilibili.com, app.biliapi.net

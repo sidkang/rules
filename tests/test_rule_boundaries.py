@@ -4,7 +4,7 @@ import ipaddress
 import pathlib
 import unittest
 
-ROOT = pathlib.Path(__file__).resolve().parents[1] / "surge"
+ROOT = pathlib.Path(__file__).resolve().parents[1] / "surge" / "list"
 
 
 def rules(path):

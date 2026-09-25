@@ -1,3 +1,4 @@
 # rules
 
-Personal Surge rules. See [Surge rule organization and subscription migration](surge/README.md).
+Personal Surge resources: policy-free [rule lists](surge/list/) and installable
+[modules](surge/module/). See [layout and subscription migration](surge/README.md).
