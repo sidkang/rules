@@ -1,12 +1,13 @@
 # Bilibili Lite
 
-版本：**2026.10.08.2**。
+版本：**2026.10.08.3**。
 
 ## 功能
 
 - 开屏去广告、搜索热词/默认词清理。
 - 底栏保留首页、动态、我的。
-- 清理视频详情/播放器下方广告；不处理 PlayURL、PlayView、PlayerUnite 或视频 CDN。
+- 清理播放器下方广告；只移除对应字段，其余详情原样保留。轻量脚本使用 JSC，不全量解码/重编码详情。
+- 不处理 PlayURL、PlayView、PlayerUnite 或视频 CDN。
 
 ## 安装
 
@@ -16,7 +17,7 @@
 https://raw.githubusercontent.com/sidkang/rules/refs/heads/main/surge/module/bilibili-lite/bilibili-lite.sgmodule
 ```
 
-启用 MITM 并信任 Surge CA；关闭重叠的 Bilibili 模块。无需手动复制 JS，所有执行脚本均来自本仓库，禁止第三方远程 JS 依赖。视频详情代码的来源与许可见 [NOTICE](NOTICE) 和 [LICENSE-Biliverse](LICENSE-Biliverse)。
+启用 MITM 并信任 Surge CA；关闭重叠的 Bilibili 模块。无需手动复制 JS，所有执行脚本均来自本仓库，禁止第三方远程 JS 依赖。代码、构建命令和依赖均在此目录，来源与许可见 [NOTICE](NOTICE)。
 
 ## 更新与诊断
 

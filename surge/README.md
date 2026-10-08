@@ -87,6 +87,7 @@ Run offline boundary checks from the repository root:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ./tests
+node --test ./tests/test_bilibili_video_detail.cjs
 ```
 
 Then verify resource loading and real rule/script hits on the intended device.

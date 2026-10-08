@@ -1,5 +1,14 @@
-Bilibili Lite video-detail dependency
+Bilibili Lite script attribution
 
+Current implementation: video-detail.source.js, built as video-detail-fast.js.
+The narrow advertisement field IDs are documented by @biliverse/protobuf 1.1.0.
+Client-specific gRPC header behavior follows Biliverse/ADBlock (Apache-2.0).
+Wire skipping uses vendored @protobuf-ts/runtime 2.11.1 BinaryReader and its
+support files. License: Apache-2.0 AND BSD-3-Clause; see
+vendor/protobuf-runtime/LICENSE. Original source notices are retained.
+No third-party JavaScript is fetched or executed at runtime.
+
+The following unchanged artifact is retained for older installed modules:
 File: video-detail-v0.7.3.js
 Origin: Biliverse/ADBlock v0.7.3, response.bundle.js
 Source repository: https://github.com/Biliverse/ADBlock/tree/v0.7.3
@@ -11,10 +20,10 @@ The release artifact is vendored byte-for-byte, without code modifications.
 Upstream contributors listed by the project include ClydeTime, VirgilClyne,
 app2smile, RuCu6, and Maasea. The original bundle and its notices are preserved.
 
-Bilibili Lite supplies a narrow Surge configuration selecting only View and
-AIRelateAsync responses. PlayURL/PlayView/PlayerUnite and Workers redirects are
-not enabled. The executable script is published from this repository; the
-origin URL above is attribution, not a runtime dependency or update source.
+The current module selects only View/AIRelateAsync responses and uses the
+self-hosted lightweight implementation. PlayURL/PlayView/PlayerUnite and Workers
+redirects are not enabled. The origin URL above is attribution, not a runtime
+dependency or update source.
 
 Upgrades require an explicit source review, replacement of the vendored file,
 verification of licensing/notices and the checksum, and normal repository
