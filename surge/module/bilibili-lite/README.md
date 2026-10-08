@@ -3,13 +3,13 @@
 Install in Surge's module UI using this URL:
 
 ```text
-https://raw.githubusercontent.com/sidkang/rules/main/surge/module/bilibili-lite/bilibili-lite.sgmodule
+https://raw.githubusercontent.com/sidkang/rules/refs/heads/main/surge/module/bilibili-lite/bilibili-lite.sgmodule
 ```
 
 The install entry uses GitHub Raw. The module downloads and caches `response.js`
 from jsDelivr; the script CDN URL is independent of the module install URL.
 
-Alternatively, open the [Surge one-click installer](surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsidkang%2Frules%2Fmain%2Fsurge%2Fmodule%2Fbilibili-lite%2Fbilibili-lite.sgmodule).
+Alternatively, open the [Surge one-click installer](surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsidkang%2Frules%2Frefs%2Fheads%2Fmain%2Fsurge%2Fmodule%2Fbilibili-lite%2Fbilibili-lite.sgmodule).
 No local JavaScript copying is required. Enable MITM and trust the Surge CA;
 the module does not install certificates or turn on the global switches.
 Disable overlapping BiliUniverse ADBlock / Enhanced modules before enabling it.
