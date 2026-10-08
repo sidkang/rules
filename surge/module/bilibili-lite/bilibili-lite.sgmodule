@@ -1,5 +1,5 @@
 #!name=Bilibili Lite
-#!desc=2026.10.08.3 | 开屏去广告、搜索清理、底栏精简、播放器下方广告清理。轻量详情处理，脚本均由本仓库提供。
+#!desc=2026.10.08.4 | 开屏去广告、搜索清理、底栏精简、播放器下方广告清理。轻量详情处理，脚本均由本仓库提供。
 
 # Published module: Surge downloads and caches the response script.
 # Optional diagnostics default to off; the private CLI tool remains in the local skill.

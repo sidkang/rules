@@ -69,19 +69,11 @@ import { BinaryReader } from './vendor/protobuf-runtime/binary-reader.js';
       const original = body.subarray(offset, end);
       let frame = original;
       if (flags !== 0x80) { // Keep gRPC-web trailers verbatim.
-        if (flags !== 0 && flags !== 1) throw new Error('Unsupported gRPC frame flags');
-        let message = body.subarray(offset + 5, end);
-        if (flags === 1) {
-          const encoding = header($response.headers, 'grpc-encoding').toLowerCase();
-          if ((encoding && encoding !== 'gzip') || typeof $utils === 'undefined') throw new Error('Unsupported gRPC compression');
-          if (message[0] !== 0x1f || message[1] !== 0x8b) throw new Error('Unsupported compressed payload');
-          message = $utils.ungzip(message);
-          if (!(message instanceof Uint8Array) || message.length > 1048576) throw new Error('Invalid or oversized decompressed payload');
-        }
+        if (flags !== 0) throw new Error('Compressed or unsupported frame; leave response untouched');
+        const message = body.subarray(offset + 5, end);
         const filtered = filterMessage(message);
         if (filtered !== message) {
           frame = new Uint8Array(filtered.length + 5);
-          // An uncompressed frame is valid even when grpc-encoding advertises gzip.
           new DataView(frame.buffer).setUint32(1, filtered.length);
           frame.set(filtered, 5);
         }
@@ -90,22 +82,7 @@ import { BinaryReader } from './vendor/protobuf-runtime/binary-reader.js';
       total += frame.length;
       offset = end;
     }
-    if (removed) {
-      const headers = Object.assign({}, $response.headers);
-      for (const key of Object.keys(headers)) {
-        if (['content-length', 'content-encoding'].includes(key.toLowerCase())) delete headers[key];
-      }
-      const ua = header($request.headers, 'user-agent');
-      // Preserve upstream's established Bilibili client header compatibility.
-      if ((ua.includes('bili-universal/') && header($request.headers, 'x-bili-moss-engine-type') === '1') || ua.includes('bili-blue/')) {
-        for (const key of Object.keys(headers)) if (key.toLowerCase() === 'grpc-status') delete headers[key];
-        headers['grpc-status'] = '0';
-      }
-      else if (ua.includes('bili-inter/')) {
-        for (const key of Object.keys(headers)) if (key.toLowerCase() === 'grpc-status') delete headers[key];
-      }
-      result = { body: concat(frames, total), headers };
-    }
+    if (removed) result = { body: concat(frames, total) };
   } catch (_) {
     // Malformed data, unsupported compression, or schema changes pass through.
     result = {};

@@ -56,15 +56,15 @@ test('asynchronous cm is removed without changing other fields', () => {
   const { result } = run(frame(Buffer.concat([field(1, [8, 1]), retained])), { endpoint: 'bilibili.app.viewunite.v1.View/AIRelateAsync' });
   assert.deepEqual(Buffer.from(result.body), frame(retained));
 });
-test('gzip data, untouched compressed frames and web trailers coexist correctly', () => {
-  const modified = frame(zlib.gzipSync(Buffer.concat([field(7, [8, 1]), retained])), 1);
-  const unchanged = frame(zlib.gzipSync(retained), 1);
-  const trailer = frame(Buffer.from('grpc-status: 0\r\n'), 0x80);
-  const { result } = run(Buffer.concat([modified, unchanged, trailer]), { headers: { 'content-type': 'application/grpc-web', 'grpc-encoding': 'gzip', 'Content-Length': '123', 'Content-Encoding': 'gzip' } });
-  assert.deepEqual(Buffer.from(result.body), Buffer.concat([frame(retained), unchanged, trailer]));
-  assert.equal(result.headers['grpc-encoding'], 'gzip');
-  assert.equal(result.headers['Content-Length'], undefined);
-  assert.equal(result.headers['Content-Encoding'], undefined);
+test('compressed frames pass through and headers are never changed', () => {
+  const compressed = frame(zlib.gzipSync(Buffer.concat([field(7, [8, 1]), retained])), 1);
+  const headers = { 'content-type': 'application/grpc', 'grpc-encoding': 'gzip', 'Content-Length': '123', 'grpc-status': '0' };
+  const result = run(compressed, { headers }).result;
+  assert.equal(result.body, undefined);
+  assert.equal(result.headers, undefined);
+  const modified = run(frame(field(7, [8, 1])), { headers }).result;
+  assert(modified.body);
+  assert.equal(modified.headers, undefined);
 });
 test('normal responses and unexpected wire type on ad ID remain untouched', () => {
   for (const payload of [retained, Buffer.concat([retained, varint(7 * 8), varint(4)])]) {
@@ -87,15 +87,6 @@ test('playback API is never modified', () => {
   for (const endpoint of ['bilibili.app.playurl.v1.PlayURL/PlayView', 'bilibili.app.playerunite.v1.Player/PlayViewUnite']) {
     assert.equal(run(frame(field(7, [8, 1])), { endpoint }).result.body, undefined);
   }
-});
-test('client-specific grpc status behavior is retained', () => {
-  const body = frame(field(7, [8, 1]));
-  const pink = run(body, { requestHeaders: { 'User-Agent': 'bili-universal/123', 'X-Bili-Moss-Engine-Type': '1' } }).result;
-  assert.equal(pink.headers['grpc-status'], '0');
-  const blue = run(body, { requestHeaders: { 'user-agent': 'bili-blue/123' } }).result;
-  assert.equal(blue.headers['grpc-status'], '0');
-  const white = run(body, { requestHeaders: { 'user-agent': 'bili-inter/123' }, headers: { 'Grpc-Status': '0' } }).result;
-  assert(!Object.keys(white.headers).some(k => k.toLowerCase() === 'grpc-status'));
 });
 test('diagnostics are off by default and storage failure does not affect cleanup', () => {
   const body = frame(field(7, [8, 1]));
