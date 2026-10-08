@@ -22,12 +22,39 @@ Fully quit and relaunch Bilibili; previously cached UI/ads may persist initially
   results and search history are not changed.
 - Bottom navigation: keep Home / Dynamic / Me using IDs/URIs with name fallbacks.
   Unknown navigation schemas are left untouched rather than broken.
-- No feed, comments, account page or playback-interface modification.
+- Video-detail ads: reuse Biliverse ADBlock v0.7.3 only for legacy/unified `View`
+  and unified `AIRelateAsync`. It removes under-player/detail promotion content;
+  the upstream View.AD handler may also clean promotional recommendations in the
+  same detail response.
+- No feed, comments, account page or playback-source API modification. No
+  `PlayURL`, `PlayView` or `PlayerUnite` interception.
 
 MITM is hostname-wide, even though script matching is narrow. Certificate
 pinning or other MITM incompatibility can still break connections; disable the
 module and compare real requests if this happens. Do not work around it by
 turning off server-certificate verification.
+
+## Video-detail dependency and scope
+
+This extra feature downloads the pinned, client-side
+[Biliverse ADBlock v0.7.3 response script](https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js)
+(about 1 MB). It runs locally in Surge; this module does not install the upstream
+Workers variant or redirect API requests to third-party processing servers.
+The original splash/search/navigation script remains independent.
+
+MITM additionally includes the observed `grpc.biliapi.net` host. Decryption is
+still host-wide, not limited to the three selected response paths. If enabling
+this host causes TLS/pinning or playback failures, stop and compare with the
+module disabled; do not disable certificate verification as a workaround.
+
+Only `View.AD` is requested in the upstream handler. Tracking/privacy changes
+and airborne-danmaku processing are explicitly off; it cannot process unrelated
+endpoints because the module URL pattern is narrow. Settings prefer this entry's
+arguments over old saved ADBlock preferences.
+
+Credit and implementation reference:
+https://github.com/Biliverse/ADBlock . The external release is pinned for
+reproducibility; no third-party bundle is copied into this repository.
 
 ## Video-node exception
 

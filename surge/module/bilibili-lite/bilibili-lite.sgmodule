@@ -1,5 +1,5 @@
 #!name=Bilibili Lite
-#!desc=仅开屏去广告、搜索热词/默认词清理、底栏保留首页/动态/我的。不修改播放接口或视频 CDN。
+#!desc=开屏去广告、搜索清理、底栏精简、视频详情广告清理。不修改播放源接口或视频 CDN。
 
 # Published module: Surge downloads and caches the response script.
 # Optional diagnostics default to off; the private CLI tool remains in the local skill.
@@ -10,9 +10,13 @@ SID-Bili-Splash = type=http-response,pattern=^https:\/\/(app\.bilibili\.com|app\
 SID-Bili-Search = type=http-response,pattern=^https:\/\/(app\.bilibili\.com|app\.biliapi\.net)\/x\/v2\/search\/(square|defaultwords)(\?|$),requires-body=true,max-size=262144,script-path=https://cdn.jsdelivr.net/gh/sidkang/rules@main/surge/module/bilibili-lite/response.js,timeout=5
 SID-Bili-Navigation = type=http-response,pattern=^https:\/\/(app\.bilibili\.com|app\.biliapi\.net)\/x\/resource\/show\/tab\/v2(\?|$),requires-body=true,max-size=262144,script-path=https://cdn.jsdelivr.net/gh/sidkang/rules@main/surge/module/bilibili-lite/response.js,timeout=5
 
-# Only the default-search-word gRPC endpoint; never PlayURL / PlayView / View.
+# Video detail ads: reuse Biliverse ADBlock v0.7.3 locally on the device.
+# Only View / AIRelateAsync; excludes PlayURL, PlayView, PlayerUnite and Workers redirects.
+SID-Bili-VideoDetail = type=http-response,pattern=^https:\/\/(app\.bilibili\.com|app\.biliapi\.net|grpc\.biliapi\.net)\/bilibili\.app\.(view\.v1\.View\/View|viewunite\.v1\.View\/(View|AIRelateAsync))$,requires-body=true,binary-body-mode=true,engine=webview,max-size=262144,script-path=https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js,timeout=10,argument=View.AD=true&Privacy.Tracking=false&Privacy.BlockBiliCommercial=false&Privacy.BlockThirdParty=false&Privacy.Strict=false&DM.Airborne=false&Storage=Argument&LogLevel=WARN
+
+# Only the default-search-word gRPC endpoint; never reject View or playback APIs.
 [URL Rewrite]
 ^https:\/\/(app\.bilibili\.com|app\.biliapi\.net)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords(\?|$) - reject
 
 [MITM]
-hostname = %APPEND% app.bilibili.com, app.biliapi.net
+hostname = %APPEND% app.bilibili.com, app.biliapi.net, grpc.biliapi.net
