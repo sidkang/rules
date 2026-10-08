@@ -1,5 +1,5 @@
 #!name=Bilibili Lite
-#!desc=2026.10.08.5 | 开屏去广告、搜索清理、底栏精简、播放器下方广告清理。仅解密实际详情域名，脚本均由本仓库提供。
+#!desc=2026.10.08.3 | 开屏去广告、搜索清理、底栏精简、播放器下方广告清理。轻量详情处理，脚本均由本仓库提供。
 
 # Published module: Surge downloads and caches the response script.
 # Optional diagnostics default to off; the private CLI tool remains in the local skill.
@@ -19,4 +19,4 @@ SID-Bili-VideoDetail = type=http-response,pattern=^https:\/\/(app\.bilibili\.com
 ^https:\/\/(app\.bilibili\.com|app\.biliapi\.net)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords(\?|$) - reject
 
 [MITM]
-hostname = %APPEND% app.bilibili.com, app.biliapi.net
+hostname = %APPEND% app.bilibili.com, app.biliapi.net, grpc.biliapi.net
