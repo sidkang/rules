@@ -1,5 +1,5 @@
 #!name=Bilibili Lite
-#!desc=开屏去广告、搜索清理、底栏精简、视频详情广告清理。不修改播放源接口或视频 CDN。
+#!desc=2026.10.08.2 | 开屏去广告、搜索清理、底栏精简、视频详情广告清理。脚本均由本仓库提供。
 
 # Published module: Surge downloads and caches the response script.
 # Optional diagnostics default to off; the private CLI tool remains in the local skill.
@@ -10,9 +10,9 @@ SID-Bili-Splash = type=http-response,pattern=^https:\/\/(app\.bilibili\.com|app\
 SID-Bili-Search = type=http-response,pattern=^https:\/\/(app\.bilibili\.com|app\.biliapi\.net)\/x\/v2\/search\/(square|defaultwords)(\?|$),requires-body=true,max-size=262144,script-path=https://cdn.jsdelivr.net/gh/sidkang/rules@main/surge/module/bilibili-lite/response.js,timeout=5
 SID-Bili-Navigation = type=http-response,pattern=^https:\/\/(app\.bilibili\.com|app\.biliapi\.net)\/x\/resource\/show\/tab\/v2(\?|$),requires-body=true,max-size=262144,script-path=https://cdn.jsdelivr.net/gh/sidkang/rules@main/surge/module/bilibili-lite/response.js,timeout=5
 
-# Video detail ads: reuse Biliverse ADBlock v0.7.3 locally on the device.
+# Video detail ads: vendored Biliverse ADBlock v0.7.3; see NOTICE and LICENSE-Biliverse.
 # Only View / AIRelateAsync; excludes PlayURL, PlayView, PlayerUnite and Workers redirects.
-SID-Bili-VideoDetail = type=http-response,pattern=^https:\/\/(app\.bilibili\.com|app\.biliapi\.net|grpc\.biliapi\.net)\/bilibili\.app\.(view\.v1\.View\/View|viewunite\.v1\.View\/(View|AIRelateAsync))$,requires-body=true,binary-body-mode=true,engine=webview,max-size=262144,script-path=https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js,timeout=10,argument=View.AD=true&Privacy.Tracking=false&Privacy.BlockBiliCommercial=false&Privacy.BlockThirdParty=false&Privacy.Strict=false&DM.Airborne=false&Storage=Argument&LogLevel=WARN
+SID-Bili-VideoDetail = type=http-response,pattern=^https:\/\/(app\.bilibili\.com|app\.biliapi\.net|grpc\.biliapi\.net)\/bilibili\.app\.(view\.v1\.View\/View|viewunite\.v1\.View\/(View|AIRelateAsync))$,requires-body=true,binary-body-mode=true,engine=webview,max-size=262144,script-path=https://cdn.jsdelivr.net/gh/sidkang/rules@main/surge/module/bilibili-lite/video-detail-v0.7.3.js,timeout=10,argument=View.AD=true&Privacy.Tracking=false&Privacy.BlockBiliCommercial=false&Privacy.BlockThirdParty=false&Privacy.Strict=false&DM.Airborne=false&Storage=Argument&LogLevel=WARN
 
 # Only the default-search-word gRPC endpoint; never reject View or playback APIs.
 [URL Rewrite]

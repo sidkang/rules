@@ -1,0 +1,21 @@
+Bilibili Lite video-detail dependency
+
+File: video-detail-v0.7.3.js
+Origin: Biliverse/ADBlock v0.7.3, response.bundle.js
+Source repository: https://github.com/Biliverse/ADBlock/tree/v0.7.3
+Original artifact: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+License: Apache-2.0; see LICENSE-Biliverse.
+SHA-256: 04100a2075988159b9400ace821c5c6ed4493fba02cd7c03b6f8c5600cf8d855
+
+The release artifact is vendored byte-for-byte, without code modifications.
+Upstream contributors listed by the project include ClydeTime, VirgilClyne,
+app2smile, RuCu6, and Maasea. The original bundle and its notices are preserved.
+
+Bilibili Lite supplies a narrow Surge configuration selecting only View and
+AIRelateAsync responses. PlayURL/PlayView/PlayerUnite and Workers redirects are
+not enabled. The executable script is published from this repository; the
+origin URL above is attribution, not a runtime dependency or update source.
+
+Upgrades require an explicit source review, replacement of the vendored file,
+verification of licensing/notices and the checksum, and normal repository
+publication. No automatic synchronization from upstream is configured.
