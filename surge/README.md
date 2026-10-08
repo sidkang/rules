@@ -60,6 +60,17 @@ content must not be treated as a ready rule/script. Commented-out references
 should be migrated too, without enabling them. Saving a local configuration does
 not prove that a phone or TV has synced/reloaded it.
 
+## Block iOS Upgrade module
+
+Install only when intentionally blocking iOS update checks:
+
+```text
+https://raw.githubusercontent.com/sidkang/rules/refs/heads/main/surge/module/block-ios-upgrade/block-ios-upgrade.sgmodule
+```
+
+It is iOS-only and rejects Apple update-check hosts. It does not replace the
+separate, currently commented macOS update list.
+
 ## Bilibili Lite module
 
 See [module instructions](module/bilibili-lite/README.md). Install:

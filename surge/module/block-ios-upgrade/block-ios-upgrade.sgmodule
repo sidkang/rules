@@ -1,0 +1,9 @@
+#!name=Block iOS Upgrade
+#!system=ios
+
+[Rule]
+DOMAIN,xp.apple.com,REJECT
+USER-AGENT,MobileAsset*,DIRECT
+DOMAIN,mesu.apple.com,REJECT
+DOMAIN,gdmf.apple.com,REJECT
+DOMAIN,updates-http.cdn-apple.com,REJECT
