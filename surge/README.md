@@ -65,7 +65,7 @@ not prove that a phone or TV has synced/reloaded it.
 See [module instructions](module/bilibili-lite/README.md). Install:
 
 ```text
-https://cdn.jsdelivr.net/gh/sidkang/rules@main/surge/module/bilibili-lite/bilibili-lite.sgmodule
+https://raw.githubusercontent.com/sidkang/rules/main/surge/module/bilibili-lite/bilibili-lite.sgmodule
 ```
 
 The module downloads its own response script; no local JS copying is needed.
